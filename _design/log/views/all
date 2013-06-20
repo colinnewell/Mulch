@@ -1,0 +1,1 @@
+function(doc) { if (doc.type && doc.type == 'openerp_log')  emit(null, doc) }
