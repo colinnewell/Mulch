@@ -1,8 +1,8 @@
 #!perl
 
 use Tie::FileSystem;
-use Data::Dumper;
 use Data::Visitor::Callback;
+use JSON::XS;
 
 my %data;
 tie %data, "Tie::FileSystem", ( 'dir' => "_design" );
@@ -14,4 +14,5 @@ my $v = Data::Visitor::Callback->new(
     },
 );
 my $chomped = $v->visit(\%data);
-print Dumper($chomped);
+my $encoder = JSON::XS->new;
+print $encoder->pretty->encode( $chomped );
