@@ -1,0 +1,11 @@
+{
+    "name": "mulch",
+    "version": "0.0.1",
+    "description": "OpenERP log analyser",
+    "modules": ["lib"],
+    "load": "lib/app",
+    "dependencies": {
+        "properties": null,
+        "modules": null
+    }
+}
