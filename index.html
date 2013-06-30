@@ -17,7 +17,7 @@
     var db = require('db').current();
     var $ = require('jquery');
 
-    db.getView('mulch', 'messages', function (err, data) {
+    db.getView('mulch', 'messages', { descending: 'true' }, function (err, data) {
         if (err) {
             // an error occurred
             return alert(err);
