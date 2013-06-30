@@ -2,14 +2,21 @@
     "name": "mulch",
     "version": "0.0.1",
     "description": "OpenERP log analyser",
-    "attachments": ["index.html"],
+    "attachments": ["index.html", "static"],
     "modules": ["lib"],
     "load": "lib/app",
+    "less": {
+        "compress": true,
+        "compile": ["static/css/main.less"],
+        "remove_from_attachments": true
+    },
     "dependencies": {
         "properties": null,
         "attachments": null,
         "jquery": null,
         "db": null,
+        "less-precompiler": null,
+        "bootstrap": null,
         "modules": null
     }
 }
