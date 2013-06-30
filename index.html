@@ -2,9 +2,10 @@
 <table>
 <thead>
     <tr>
+        <th>Start</th>
         <th>Request</th>
         <th>Response</th>
-        <th>Time</th>
+        <th>Execute Time</th>
     </tr>
 </thead>
 <tbody id="entries">
@@ -24,6 +25,7 @@
         for (var i = 0; i < data.rows.length; i++) {
             var row = $('<tr>');
             var data_row = data.rows[i].value;
+            $('<td>').text(data_row.request_start).appendTo(row);
             var col = $('<td>');
             $('<pre>').text(data_row.request.join("\n")).appendTo(col);
             col.appendTo(row);
