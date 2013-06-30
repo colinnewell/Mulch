@@ -1,0 +1,34 @@
+<h1>Open ERP logs</h1>
+<table>
+<thead>
+    <tr>
+        <th>Request</th>
+        <th>Response</th>
+        <th>Time</th>
+    </tr>
+</thead>
+<tbody id="entries">
+</tbody>
+</table>
+
+<script type="text/javascript" src="modules.js"></script>
+<script type="text/javascript">
+    var db = require('db').current();
+    var $ = require('jquery');
+
+    db.getView('mulch', 'messages', function (err, data) {
+        if (err) {
+            // an error occurred
+            return alert(err);
+        }
+        for (var i = 0; i < data.rows.length; i++) {
+            var row = $('<tr>');
+            $('<td>').text(data.rows[i].doc.request.join('<br>')).appendTo(row);
+            $('<td>').text(data.rows[i].doc.response.join('<br>')).appendTo(row);
+            $('<td>').text(data.rows[i].doc.response_time).appendTo(row);
+            row.appendTo('#entries');
+        }
+    });
+</script>
+
+
