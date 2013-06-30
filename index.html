@@ -24,8 +24,12 @@
         for (var i = 0; i < data.rows.length; i++) {
             var row = $('<tr>');
             var data_row = data.rows[i].value;
-            $('<td>').text(data_row.request.join("\n")).appendTo(row);
-            $('<td>').text(data_row.response.join("\n")).appendTo(row);
+            var col = $('<td>');
+            $('<pre>').text(data_row.request.join("\n")).appendTo(col);
+            col.appendTo(row);
+            col = $('<td>');
+            $('<pre>').text(data_row.response.join("\n")).appendTo(col);
+            col.appendTo(row);
             $('<td>').text(data_row.response_time).appendTo(row);
             row.appendTo('#entries');
         }
