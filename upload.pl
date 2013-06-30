@@ -9,7 +9,7 @@ die 'Specify file to upload' unless $file;
 my $c = CouchDB::Client->new(uri => 'http://couchdb:5984/');
 $c->testConnection or die "The server cannot be reached";
 print "Running version " . $c->serverInfo->{version} . "\n";
-my $db = $c->newDB('openerp-log');
+my $db = $c->newDB('mulch');
 my $f = path($file);
 my $stat = $f->stat;
 $db->newDoc(undef, undef, {

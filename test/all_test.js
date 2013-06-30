@@ -16,6 +16,5 @@ tap.test('View test', function(t) {
     var app = require('../lib/app');
     var doc = {};
     app.views.all.map({type: "openerp_log"});
-    var doc = {};
     t.end();
 });
