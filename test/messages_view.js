@@ -10,7 +10,7 @@ tap.test('View test', function(t) {
     app.views.messages.map(doc);
     t.equal(emited_doc.response[0], "2013-06-25 22:08:17,234 885 DEBUG minimal openerp.netsvc.rpc.response: object.execute time:1.935s 5L");
     t.equal(emited_doc.request[1], "2013-06-25 22:08:15,304 885 DEBUG ? openerp.netsvc.rpc.request:                1,");
-    t.equal(emited_doc.response_time, "time:1.935s");
+    t.equal(emited_doc.response_time, "1.935s");
     t.end();
 });
 
