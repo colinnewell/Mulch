@@ -8,6 +8,7 @@
 <thead>
     <tr>
         <th class="req_start">Start</th>
+        <th class="prologue">Prologue</th>
         <th class="req">Request</th>
         <th class="res">Response</th>
         <th class="time">Execute Time</th>
@@ -31,6 +32,7 @@
             var row = $('<tr>');
             var data_row = data.rows[i].value;
             $('<td class="req_start">').text(data_row.request_start).appendTo(row);
+            $('<td class="prologue">').text(data_row.prologue).appendTo(row);
             var col = $('<td class="req">');
             $('<pre>').text(data_row.request.join("\n")).appendTo(col);
             col.appendTo(row);
