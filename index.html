@@ -32,7 +32,6 @@
 <thead>
     <tr>
         <th class="req_start">Start</th>
-        <th class="prologue">Prologue</th>
         <th class="req">Request</th>
         <th class="res">Response</th>
         <th class="time">Execute Time</th>
@@ -67,14 +66,15 @@
             }
             var request_start = data_row.request_start;
             $('<td class="req_start">').text(request_start).appendTo(row);
-            if(duplicates[request_start]) {
-                duplicates[request_start]++;
-            } else {
-                duplicates[request_start] = 1;
-            }
             var col = $('<td class="req">');
-            $('<pre>').text(data_row.request.join("\n")).appendTo(col);
+            var request_text = data_row.request.join("\n");
+            $('<pre>').text(request_text).appendTo(col);
             col.appendTo(row);
+            if(duplicates[request_text]) {
+                duplicates[request_text]++;
+            } else {
+                duplicates[request_text] = 1;
+            }
             col = $('<td class="res">');
             $('<pre>').text(data_row.response.join("\n")).appendTo(col);
             col.appendTo(row);
