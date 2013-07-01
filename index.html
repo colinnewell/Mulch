@@ -7,6 +7,16 @@
 <table class="table table-striped table-bordered table-condensed">
 <thead>
     <tr>
+        <th class="prologue">Prologue</th>
+        <th class="time">Messages</th>
+        <th class="time">Execute Time</th>
+    </tr>
+</thead>
+<tbody id="overview">
+</tbody>
+<table class="table table-striped table-bordered table-condensed">
+<thead>
+    <tr>
         <th class="req_start">Start</th>
         <th class="prologue">Prologue</th>
         <th class="req">Request</th>
@@ -28,9 +38,18 @@
             // an error occurred
             return alert(err);
         }
+        var instructions = {};
         for (var i = 0; i < data.rows.length; i++) {
             var row = $('<tr>');
             var data_row = data.rows[i].value;
+            var key = data.rows[i].key;
+            var prologue = key[2];
+            if(prologue) {
+                var message_info = instructions[prologue] || { count: 0, time: 0 };
+                message_info['count']++;
+                message_info['time'] += Number(data_row.response_time.replace(/s/, ''));
+                instructions[prologue] = message_info;
+            }
             $('<td class="req_start">').text(data_row.request_start).appendTo(row);
             $('<td class="prologue">').text(data_row.prologue).appendTo(row);
             var col = $('<td class="req">');
@@ -41,6 +60,16 @@
             col.appendTo(row);
             $('<td class="time">').text(data_row.response_time).appendTo(row);
             row.appendTo('#entries');
+        }
+        for(k in instructions) {
+            if(k) {
+                var row = $('<tr>');
+                var info = instructions[k];
+                $('<td class="prologue">').text(k).appendTo(row);
+                $('<td class="count">').text(info.count).appendTo(row);
+                $('<td class="time">').text(Math.round(info.time*1000)/1000 + 's').appendTo(row);
+                row.appendTo('#overview');
+            }
         }
     });
 </script>
