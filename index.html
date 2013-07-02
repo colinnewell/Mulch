@@ -51,47 +51,42 @@
             // an error occurred
             return alert(err);
         }
-        var instructions = {};
-        var duplicates = {};
         for (var i = 0; i < data.rows.length; i++) {
             var row = $('<tr>');
             var data_row = data.rows[i].value;
-            var key = data.rows[i].key;
-            var prologue = key[2];
-            if(prologue) {
-                var message_info = instructions[prologue] || { count: 0, time: 0 };
-                message_info['count']++;
-                message_info['time'] += Number(data_row.response_time.replace(/s/, ''));
-                instructions[prologue] = message_info;
-            }
             var request_start = data_row.request_start;
             $('<td class="req_start">').text(request_start).appendTo(row);
             var col = $('<td class="req">');
             var request_text = data_row.request.join("\n");
             $('<pre>').text(request_text).appendTo(col);
             col.appendTo(row);
-            if(duplicates[request_text]) {
-                duplicates[request_text]++;
-            } else {
-                duplicates[request_text] = 1;
-            }
             col = $('<td class="res">');
             $('<pre>').text(data_row.response.join("\n")).appendTo(col);
             col.appendTo(row);
             $('<td class="time">').text(data_row.response_time).appendTo(row);
             row.appendTo('#entries');
         }
-        for(k in instructions) {
-            if(k) {
-                var row = $('<tr>');
-                var info = instructions[k];
-                $('<td class="prologue">').text(k).appendTo(row);
-                $('<td class="count">').text(info.count).appendTo(row);
-                $('<td class="time">').text(Math.round(info.time*1000)/1000 + 's').appendTo(row);
-                row.appendTo('#overview');
-            }
+    });
+    db.getView('mulch', 'message_types', { descending: 'true' }, function (err, data) {
+        if (err) {
+            // an error occurred
+            return alert(err);
         }
-        for(req in duplicates) {
+        for (var i = 0; i < data.rows.length; i++) {
+            var row = $('<tr>');
+            var info = instructions[k];
+            $('<td class="prologue">').text(k).appendTo(row);
+            $('<td class="count">').text(info.count).appendTo(row);
+            $('<td class="time">').text(Math.round(info.time*1000)/1000 + 's').appendTo(row);
+            row.appendTo('#overview');
+        }
+    });
+    db.getView('mulch', 'duplicates', { descending: 'true' }, function (err, data) {
+        if (err) {
+            // an error occurred
+            return alert(err);
+        }
+        for (var i = 0; i < data.rows.length; i++) {
             var count = duplicates[req];
             if(count > 1) {
                 var row = $('<tr>');
