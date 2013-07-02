@@ -3,7 +3,7 @@
     "version": "0.0.1",
     "description": "OpenERP log analyser",
     "attachments": ["index.html", "static"],
-    "modules": ["lib"],
+    "modules": ["lib", "views"],
     "load": "lib/app",
     "less": {
         "compress": true,
