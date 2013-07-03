@@ -79,7 +79,7 @@
                         col = $('<td class="res">');
                         $('<pre>').text(data_row.response.join("\n")).appendTo(col);
                         col.appendTo(row);
-                        $('<td class="time">').text(data_row.response_time).appendTo(row);
+                        $('<td class="time">').text(data.rows[i].key[1]).appendTo(row);
                         row.appendTo('#entries');
                     }
                 });
