@@ -5,6 +5,8 @@
   <body>
 <h1>Open ERP logs</h1>
 <div class="dups">
+<select id="files">
+</select>
 <h2>Duplicates</h2>
 <table class="table table-striped table-bordered table-condensed">
 <thead>
@@ -51,6 +53,17 @@
     var db = require('db').current();
     var $ = require('jquery');
 
+    db.getView('mulch', 'files', {}, function(err, data) {
+        if (err) {
+            // an error occurred
+            return alert(err);
+        }
+        var options = $('#files');
+        for (var i = 0; i < data.rows.length; i++) {
+            var fname = data.rows[i].value;
+            $('<option>').val(fname).text(fname.replace(/.*\//, '')).appendTo(options);
+        }
+    });
     db.getView('mulch', 'messages', { descending: 'true' }, function (err, data) {
         if (err) {
             // an error occurred
