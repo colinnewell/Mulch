@@ -15,6 +15,13 @@ exports.parse_log = function (log_file_contents, emit_callback) {
         if(match) {
             prologue = match[1];
             prologue = prologue.replace(/\s+/g, ' ');
+        } else {
+            // common.login('minimal', 'admin', '*')
+            var match = full_request.match(/(\w+\.\w+.*\('\w+',\s*(\d+|'\w+'),\s*'\*')/);
+            if(match) {
+                prologue = match[1];
+                prologue = prologue.replace(/\s+/g, ' ');
+            }
         }
         emit_callback({ 
                 'request': request,
