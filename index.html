@@ -9,18 +9,28 @@
 </select>
 <div class="main_content">
     <div class="dups">
-        <h2>Duplicates</h2>
-        <table class="table table-striped table-bordered table-condensed">
-        <thead>
-            <tr>
-                <th class="prologue">Message</th>
-                <th class="count">Messages</th>
-                <th class="count">Time</th>
-            </tr>
-        </thead>
-        <tbody id="duplicates">
-        </tbody>
-        </table>
+        <div class="accordion-group">
+            <div class="accordion-heading" id="duplicateHeading">
+                <a class="accordion-toggle" data-toggle="collapse" data-parent="#duplicateHeading" href="#duplicate_box">
+                    <h2>Duplicates</h2>
+                </a>
+            </div>
+            <div class="accordion-body collapse" id="duplicate_box">
+                <div class="accordion-inner">
+                    <table class="table table-striped table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th class="prologue">Message</th>
+                            <th class="count">Messages</th>
+                            <th class="count">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody id="duplicates">
+                    </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
     <h2>Summary</h2>
     <table class="table table-striped table-bordered table-condensed">
@@ -52,8 +62,11 @@
 </div>
 <script type="text/javascript" src="modules.js"></script>
 <script type="text/javascript">
-    var db = require('db').current();
     var $ = require('jquery');
+</script>
+<script type="text/javascript" src="static/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+    var db = require('db').current();
     $(function() {
         $('.main_content').hide();
         $('#files').change(function() {
