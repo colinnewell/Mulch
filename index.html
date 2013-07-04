@@ -3,6 +3,8 @@
     <link rel="stylesheet" type="text/css" href="static/css/main.css" />
   </head>
   <body>
+<div class="container-fluid">
+<div class="row-fluid">
 <h1>Open ERP logs</h1>
 <select id="files">
     <option value="">&nbsp;</option>
@@ -60,6 +62,8 @@
     </tbody>
     </table>
 </div>
+</div>
+</div>
 <script type="text/javascript" src="modules.js"></script>
 <script type="text/javascript">
     var $ = require('jquery');
@@ -67,6 +71,7 @@
 <script type="text/javascript" src="static/js/bootstrap.min.js"></script>
 <script type="text/javascript">
     var db = require('db').current();
+    var $ = require('jquery');
     $(function() {
         $('.main_content').hide();
         $('#files').change(function() {
