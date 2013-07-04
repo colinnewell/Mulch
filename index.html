@@ -110,12 +110,25 @@
                         var row = $('<tr>');
                         var key = data.rows[i].key;
                         var info = data.rows[i].value;
-                        $('<td class="prologue">').text(key[1]).appendTo(row);
-                        $('<td class="count">').text(info.count).appendTo(row);
-                        $('<td class="time">').text(Math.round(info.response_time*1000)/1000 + 's').appendTo(row);
-                        $('<td class="time">').text(info.first_request).appendTo(row);
-                        $('<td class="time">').text(info.last_request).appendTo(row);
-                        row.appendTo('#overview');
+                        if(info) {
+                            $('<td class="prologue">').text(key[1]).appendTo(row);
+                            $('<td class="count">').text(info.count).appendTo(row);
+                            $('<td class="time">').text(Math.round(info.response_time*1000)/1000 + 's').appendTo(row);
+                            $('<td class="time">').text(info.first_request).appendTo(row);
+                            $('<td class="time">').text(info.last_request).appendTo(row);
+                            row.appendTo('#overview');
+                        }
+                    }
+                });
+                db.getView('mulch', 'duplicates', { startkey: [fname], endkey: [fname, {}], group: 'true', group_level: 1 }, function (err, data) {
+                    if (err) {
+                        // an error occurred
+                        return alert(err);
+                    }
+                    var info = data.rows[0].value;
+                    if(info) {
+                        console.log(info);
+                        $('<p>').text(info.count + " duplicates taking " + info.response_time + "s").appendTo('.dups a');
                     }
                 });
                 db.getView('mulch', 'duplicates', { startkey: [fname], endkey: [fname, {}], group: 'true' }, function (err, data) {
