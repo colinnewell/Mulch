@@ -140,7 +140,7 @@
                     $('#duplicates').children().remove();
                     for (var i = 0; i < data.rows.length; i++) {
                         var row = data.rows[i].value;
-                        if(row.count > 1) {
+                        if(row && row.count > 1) {
                             duplicates++;
                             var key = data.rows[i].key;
                             var table_row = $('<tr>');

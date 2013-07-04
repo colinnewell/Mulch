@@ -4,6 +4,7 @@ exports.parse_log = function (log_file_contents, emit_callback) {
     var in_response = false;
     var request = [];
     var response = [];
+    var sql_queries = [];
     var response_time = 0;
     var request_start = '';
     var emit_response = function() {
@@ -28,12 +29,14 @@ exports.parse_log = function (log_file_contents, emit_callback) {
                 'response': response,
                 'response_time': response_time,
                 'request_start': request_start,
-                'prologue': prologue
+                'prologue': prologue,
+                'sql_queries': sql_queries
                 });
         request = [];
         request_start = '';
         response_time = 0;
         response = [];
+        sql_queries = [];
     };
     for(var i = 0; i < lines.length; i++) {
         var line = lines[i];
@@ -42,6 +45,13 @@ exports.parse_log = function (log_file_contents, emit_callback) {
             // FIXME: should grab pid too
             if(in_response) {
                 emit_response();
+            }
+            if(in_request || request_start) {
+                if(line.search(/openerp.netsvc.rpc.request: \w+.*\(/) >= 0) {
+                    // this looks like the start of another request.
+                    // lets finish the previous one.
+                    emit_response();
+                }
             }
             if(!request_start) {
                 var res = line.match(/^(\d+-\d+-\d+ \d+:\d+:\d+,\d+) /);
@@ -61,6 +71,9 @@ exports.parse_log = function (log_file_contents, emit_callback) {
                 line = line.replace(/.*time:(\d+.\d+s) /, '');
             }
             response.push(line);
+        } else if(line.search(/openerp.sql_db: query:/) >= 0) {
+            line = line.replace(/^.*openerp.sql_db: query: /, '');
+            sql_queries.push(line);
         }
         // else
         // {
