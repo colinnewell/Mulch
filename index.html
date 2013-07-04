@@ -72,7 +72,6 @@
         $('#files').change(function() {
             // reload the content.
             var fname = $('#files').val();
-            console.log('|' + fname + '|');
             if(fname) {
                 db.getView('mulch', 'messages', { startkey: [fname, {}], endkey: [fname], descending: 'true' }, function (err, data) {
                     if (err) {
@@ -96,7 +95,7 @@
                         row.appendTo('#entries');
                     }
                 });
-                db.getView('mulch', 'message_types', { startkey: [fname, {}], endkey: [fname], group: 'true', descending: 'true' }, function (err, data) {
+                db.getView('mulch', 'message_types', { startkey: [fname], endkey: [fname, {}], group: 'true' }, function (err, data) {
                     if (err) {
                         // an error occurred
                         return alert(err);
@@ -114,7 +113,7 @@
                         row.appendTo('#overview');
                     }
                 });
-                db.getView('mulch', 'duplicates', { startkey: [fname, {}], endkey: [fname], group: 'true', descending: 'true' }, function (err, data) {
+                db.getView('mulch', 'duplicates', { startkey: [fname], endkey: [fname, {}], group: 'true' }, function (err, data) {
                     if (err) {
                         // an error occurred
                         return alert(err);
