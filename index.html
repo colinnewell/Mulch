@@ -15,6 +15,7 @@
             <div class="accordion-heading" id="duplicateHeading">
                 <a class="accordion-toggle" data-toggle="collapse" data-parent="#duplicateHeading" href="#duplicate_box">
                     <h2>Duplicates</h2>
+                    <p id="duplicate_summary"></p>
                 </a>
             </div>
             <div class="accordion-body collapse" id="duplicate_box">
@@ -72,7 +73,19 @@
 <script type="text/javascript">
     var db = require('db').current();
     var $ = require('jquery');
+    var file_size = function(size) {
+        var suffix = ['b', 'k', 'M', 'G', 'T'];
+        var i = 0;
+        while(size > 1024 && i < suffix.length) {
+            size = size / 1024;
+            i++;
+        }
+        return Math.round(size*10)/10 + suffix[i];
+    };
     $(function() {
+        var round = function(num) {
+            return Math.round(num*1000)/1000
+        };
         $('.main_content').hide();
         $('#files').change(function() {
             // reload the content.
@@ -113,7 +126,7 @@
                         if(info) {
                             $('<td class="prologue">').text(key[1]).appendTo(row);
                             $('<td class="count">').text(info.count).appendTo(row);
-                            $('<td class="time">').text(Math.round(info.response_time*1000)/1000 + 's').appendTo(row);
+                            $('<td class="time">').text(round(info.response_time) + 's').appendTo(row);
                             $('<td class="time">').text(info.first_request).appendTo(row);
                             $('<td class="time">').text(info.last_request).appendTo(row);
                             row.appendTo('#overview');
@@ -128,7 +141,7 @@
                     var info = data.rows[0].value;
                     if(info) {
                         console.log(info);
-                        $('<p>').text(info.count + " duplicates taking " + info.response_time + "s").appendTo('.dups a');
+                        $('#duplicate_summary').text(info.count + " duplicates taking " + round(info.response_time) + "s");
                     }
                 });
                 db.getView('mulch', 'duplicates', { startkey: [fname], endkey: [fname, {}], group: 'true' }, function (err, data) {
@@ -148,7 +161,7 @@
                             $('<pre>').text(key[1].join("\n")).appendTo(col);
                             col.appendTo(table_row);
                             $('<td class="count">').text(row.count).appendTo(table_row);
-                            $('<td class="time">').text(Math.round(row.response_time*1000)/1000 + 's').appendTo(table_row);
+                            $('<td class="time">').text(round(row.response_time) + 's').appendTo(table_row);
                             table_row.appendTo('#duplicates');
                         }
                     }
@@ -172,8 +185,12 @@
         }
         var options = $('#files');
         for (var i = 0; i < data.rows.length; i++) {
-            var fname = data.rows[i].value;
-            $('<option>').val(fname).text(fname.replace(/.*\//, '')).appendTo(options);
+            var file = data.rows[i].value;
+            var fname = file.filename;
+            var fsize = file_size(file.size);
+            var ctime = new Date(file.ctime*1000);
+            var caption = ctime.toLocaleDateString() + " - " + fname.replace(/.*\//, '') + "- " + fsize;
+            $('<option>').val(fname).text(caption).appendTo(options);
         }
     });
 </script>
