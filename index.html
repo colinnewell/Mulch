@@ -140,7 +140,6 @@
                     }
                     var info = data.rows[0].value;
                     if(info) {
-                        console.log(info);
                         $('#duplicate_summary').text(info.count + " duplicates taking " + round(info.response_time) + "s");
                     }
                 });
