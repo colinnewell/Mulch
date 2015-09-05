@@ -3,6 +3,8 @@
     "version": "0.0.1",
     "description": "OpenERP log analyser",
     "private": true,
-    "devDependencies": { "tap": "~0.2.3" }
+    "devDependencies": {
+        "tap": "^1.4.0"
+    }
 }
 
